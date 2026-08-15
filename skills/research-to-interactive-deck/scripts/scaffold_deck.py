@@ -18,7 +18,7 @@ def slugify(value: str) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--topic", required=True)
-    parser.add_argument("--audience", default="a motivated beginner")
+    parser.add_argument("--audience", default="a beginner who may not be fluent in English")
     parser.add_argument("--output-root", type=Path, default=Path("~/Projects/personal"))
     args = parser.parse_args()
 
@@ -31,7 +31,7 @@ def main() -> int:
 
     data = {
         "topic": args.topic,
-        "subtitle": "TODO: one-sentence promise for the learner",
+        "subtitle": "TODO: one short sentence about what the learner will understand",
         "audience": args.audience,
         "updated": date.today().isoformat(),
         "objectives": ["TODO: learner outcome"],
@@ -40,10 +40,10 @@ def main() -> int:
                 "id": "why-it-matters",
                 "kicker": "Orientation",
                 "title": "Why it matters",
-                "summary": "TODO: concise explanation",
-                "points": [{"text": "TODO: source-grounded point", "sources": ["S1"]}],
-                "deep_dive": "TODO: optional detail",
-                "terms": [{"term": "TODO term", "definition": "TODO plain-language definition"}],
+                "summary": "TODO: explain the main idea with short, common words",
+                "points": [{"text": "TODO: one clear fact in 30 words or fewer", "sources": ["S1"]}],
+                "deep_dive": "TODO: optional detail in simple English",
+                "terms": [{"term": "TODO term", "definition": "TODO definition using easier words than the term"}],
             }
         ],
         "knowledge_check": [{"question": "TODO: check understanding", "answer": "TODO: answer"}],
@@ -52,7 +52,7 @@ def main() -> int:
                 "id": "S1",
                 "title": "TODO: source title",
                 "publisher": "TODO: publisher",
-                "published": "TODO or n.d.",
+                "published": "TODO or date not listed",
                 "accessed": date.today().isoformat(),
                 "url": "https://example.com/direct-source",
             }

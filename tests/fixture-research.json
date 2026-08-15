@@ -1,7 +1,7 @@
 {
   "topic": "How Rainbows Form",
   "subtitle": "A compact model of refraction, reflection, and color separation",
-  "audience": "a motivated beginner",
+  "audience": "a beginner who may not be fluent in English",
   "updated": "2026-08-15",
   "objectives": [
     "Explain why sunlight separates into colors inside a raindrop",
@@ -39,7 +39,7 @@
       "id": "S1",
       "title": "About Rainbows",
       "publisher": "National Weather Service",
-      "published": "n.d.",
+      "published": "date not listed",
       "accessed": "2026-08-15",
       "url": "https://www.weather.gov/fgz/Rainbow"
     }
