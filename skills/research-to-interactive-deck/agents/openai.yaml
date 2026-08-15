@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research to Interactive Deck"
+  short_description: "Research a topic into an interactive learning deck"
+  default_prompt: "Use $research-to-interactive-deck to teach me a topic from first principles with a concise interactive HTML deck."

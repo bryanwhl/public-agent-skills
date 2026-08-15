@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>{{TITLE}}</title>
+  <style>
+    :root { --bg:#f5f3ee; --panel:#fffdf8; --ink:#17202a; --muted:#5c6773; --accent:#0c6b58; --line:#d9d4c8; --focus:#f2a900; --max:72rem; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:var(--bg); font:17px/1.62 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    a { color:var(--accent); text-underline-offset:.18em; }
+    a:focus-visible,button:focus-visible,summary:focus-visible { outline:3px solid var(--focus); outline-offset:3px; }
+    header { padding:5rem max(1.25rem,calc((100% - var(--max))/2)); background:var(--ink); color:#fff; }
+    header p { max-width:48rem; color:#dbe3e6; }
+    .eyebrow { margin:0 0 .5rem; color:#7cd9c5; font-size:.78rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    h1 { max-width:18ch; margin:.1rem 0 1rem; font-size:clamp(2.4rem,7vw,5.2rem); line-height:1.02; letter-spacing:-.045em; }
+    h2 { margin:0 0 .75rem; font-size:clamp(1.7rem,3vw,2.6rem); line-height:1.12; letter-spacing:-.025em; }
+    h3 { margin:1.4rem 0 .4rem; }
+    nav { position:sticky; top:0; z-index:10; overflow:auto; display:flex; gap:.4rem; padding:.7rem max(1rem,calc((100% - var(--max))/2)); background:color-mix(in srgb,var(--panel) 94%,transparent); border-bottom:1px solid var(--line); backdrop-filter:blur(10px); }
+    nav a { flex:0 0 auto; padding:.35rem .65rem; border-radius:999px; color:var(--muted); font-size:.82rem; font-weight:700; text-decoration:none; }
+    nav a[aria-current="true"] { background:var(--accent); color:#fff; }
+    main { width:min(calc(100% - 2rem),var(--max)); margin:auto; padding:2rem 0 5rem; }
+    .slide { min-height:70vh; margin:1.2rem 0; padding:clamp(1.3rem,4vw,3.4rem); scroll-margin-top:5rem; background:var(--panel); border:1px solid var(--line); border-radius:1.2rem; box-shadow:0 14px 50px rgb(29 34 36 / .07); }
+    .lead { max-width:54rem; font-size:1.16rem; color:var(--muted); }
+    .points { display:grid; gap:.7rem; margin:1.5rem 0; padding:0; list-style:none; }
+    .points li { padding:.9rem 1rem; border-left:4px solid var(--accent); background:color-mix(in srgb,var(--accent) 7%,var(--panel)); }
+    .cite { font-size:.72em; font-weight:800; vertical-align:super; text-decoration:none; }
+    details { margin:1.3rem 0; padding:1rem; border:1px solid var(--line); border-radius:.7rem; }
+    summary { cursor:pointer; color:var(--accent); font-weight:800; }
+    .term { padding:0; color:inherit; background:transparent; border:0; border-bottom:2px dotted var(--accent); font:inherit; cursor:help; }
+    .objectives { display:grid; grid-template-columns:repeat(auto-fit,minmax(14rem,1fr)); gap:.8rem; padding:0; list-style:none; }
+    .objectives li { padding:1rem; background:color-mix(in srgb,var(--accent) 8%,var(--panel)); border-radius:.7rem; }
+    .sources li { margin:.8rem 0; overflow-wrap:anywhere; }
+    dialog { width:min(34rem,calc(100% - 2rem)); padding:0; color:var(--ink); background:var(--panel); border:1px solid var(--line); border-radius:1rem; box-shadow:0 22px 80px rgb(0 0 0 / .3); }
+    dialog::backdrop { background:rgb(0 0 0 / .55); }
+    .dialog-body { padding:1.4rem; }
+    .dialog-close { float:right; padding:.45rem .7rem; color:#fff; background:var(--accent); border:0; border-radius:.45rem; cursor:pointer; }
+    footer { padding:2rem; color:var(--muted); text-align:center; }
+    @media (max-width:600px) { header { padding-top:3.5rem; } .slide { min-height:0; border-radius:.8rem; } }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; } }
+    @media print { nav,.dialog-close { display:none; } body { background:#fff; } .slide { min-height:0; break-inside:avoid; box-shadow:none; } details > * { display:block!important; } }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="eyebrow">Zero-to-one learning deck</p>
+    <h1>{{TITLE}}</h1>
+    <p>{{SUBTITLE}}</p>
+    <p><small>Prepared for {{AUDIENCE}} · Updated {{UPDATED}}</small></p>
+  </header>
+  <nav aria-label="Deck sections">{{NAV}}</nav>
+  <main id="main-content">{{CONTENT}}{{SOURCES}}</main>
+  <dialog id="definition-dialog" aria-labelledby="definition-term">
+    <div class="dialog-body">
+      <button class="dialog-close" type="button" aria-label="Close definition">Close</button>
+      <h2 id="definition-term"></h2>
+      <p id="definition-text"></p>
+    </div>
+  </dialog>
+  <footer>Generated {{GENERATED}} · Use ← and → to move between sections.</footer>
+  <script>
+    (() => {
+      const slides = [...document.querySelectorAll('.slide')];
+      const links = [...document.querySelectorAll('nav a')];
+      const dialog = document.querySelector('#definition-dialog');
+      const termHeading = document.querySelector('#definition-term');
+      const termText = document.querySelector('#definition-text');
+      let trigger = null;
+
+      document.querySelectorAll('.term').forEach((button) => button.addEventListener('click', () => {
+        trigger = button;
+        termHeading.textContent = button.textContent;
+        termText.textContent = button.dataset.definition;
+        dialog.showModal();
+        dialog.querySelector('.dialog-close').focus();
+      }));
+      dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+      dialog.addEventListener('close', () => trigger?.focus());
+      dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+
+      const currentIndex = () => slides.reduce((best, slide, index) =>
+        Math.abs(slide.getBoundingClientRect().top - 90) < Math.abs(slides[best].getBoundingClientRect().top - 90) ? index : best, 0);
+      const markCurrent = () => {
+        const active = slides[currentIndex()]?.id;
+        links.forEach((link) => link.setAttribute('aria-current', String(link.hash === `#${active}`)));
+      };
+      addEventListener('scroll', markCurrent, { passive:true });
+      addEventListener('keydown', (event) => {
+        if (event.defaultPrevented || /INPUT|TEXTAREA|BUTTON|SUMMARY|A/.test(document.activeElement?.tagName)) return;
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        const next = Math.max(0, Math.min(slides.length - 1, currentIndex() + (event.key === 'ArrowRight' ? 1 : -1)));
+        slides[next].scrollIntoView({ behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      });
+      markCurrent();
+    })();
+  </script>
+</body>
+</html>

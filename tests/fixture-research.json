@@ -1,0 +1,47 @@
+{
+  "topic": "How Rainbows Form",
+  "subtitle": "A compact model of refraction, reflection, and color separation",
+  "audience": "a motivated beginner",
+  "updated": "2026-08-15",
+  "objectives": [
+    "Explain why sunlight separates into colors inside a raindrop",
+    "Describe why the primary rainbow appears opposite the Sun"
+  ],
+  "sections": [
+    {
+      "id": "core-model",
+      "kicker": "Mental model",
+      "title": "Light takes three steps",
+      "summary": "A raindrop bends incoming light, reflects it internally, and bends it again as it exits.",
+      "points": [
+        {
+          "text": "Different wavelengths bend by slightly different amounts, spreading white light into visible colors.",
+          "sources": ["S1"]
+        }
+      ],
+      "deep_dive": "Each observer sees light from a different set of drops, so a rainbow is not a fixed object at one location.",
+      "terms": [
+        {
+          "term": "refraction",
+          "definition": "A change in a wave's direction caused by entering a medium where it travels at a different speed."
+        }
+      ]
+    }
+  ],
+  "knowledge_check": [
+    {
+      "question": "Why do the colors separate?",
+      "answer": "The drop refracts different wavelengths by slightly different amounts."
+    }
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "title": "About Rainbows",
+      "publisher": "National Weather Service",
+      "published": "n.d.",
+      "accessed": "2026-08-15",
+      "url": "https://www.weather.gov/fgz/Rainbow"
+    }
+  ]
+}
