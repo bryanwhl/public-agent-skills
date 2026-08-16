@@ -1,11 +1,11 @@
 ---
 name: research-to-interactive-deck
-description: Research an unfamiliar topic from first principles and turn it into a concise, source-grounded, interactive HTML learning deck. Use when a user wants to get from zero to one on a topic or subtopic, asks for a research presentation or explainer, wants an interactive HTML briefing, or needs jargon, concepts, examples, and deeper detail presented with progressive disclosure. Save the finished self-contained deck under ~/Projects/personal unless the user specifies another location.
+description: Research an unfamiliar topic from first principles and turn it into a concise, source-grounded, interactive HTML learning deck written in simple English. Use when a user wants to learn a topic from the beginning, asks for a research presentation or explainer, wants an interactive HTML briefing, or needs hard ideas and jargon explained clearly for a beginner or someone who is not fluent in English. Save the finished self-contained deck under ~/Projects/personal unless the user specifies another location.
 ---
 
 # Research to Interactive Deck
 
-Produce a trustworthy learning path, not a pile of facts. Optimize the main view for a newcomer while making depth available on demand.
+Produce a trustworthy learning path, not a pile of facts. Write for a beginner who may not be fluent in English. Keep the main view easy to read. Put extra detail behind buttons and expandable sections.
 
 ## Workflow
 
@@ -28,15 +28,19 @@ Produce a trustworthy learning path, not a pile of facts. Optimize the main view
 4. Synthesize for zero-to-one learning.
    - Establish the big picture before details.
    - Introduce one new conceptual layer at a time.
-   - Use plain language, short examples, comparisons, and diagrams where they reduce cognitive load.
-   - Put optional nuance behind expandable sections. Define jargon at first use and make every specialist term interactively explainable.
+   - Read [simple-english.md](references/simple-english.md) and follow it for all learner-facing text.
+   - Use common words, short sentences, direct examples, and clear diagrams.
+   - Keep one main idea in each sentence. Prefer active voice. Avoid idioms, clever wordplay, and abstract business language.
+   - Replace jargon with common words when possible. When a technical term is required, explain it at first use with familiar words and make it clickable.
+   - Put optional detail behind expandable sections. Do not hide facts that the learner needs for the main explanation.
    - Distinguish sourced fact, expert interpretation, and your own inference.
 
 5. Create the deck.
    - Read [deck-spec.md](references/deck-spec.md) before authoring.
    - Run `python3 scripts/scaffold_deck.py --topic "<topic>"` from this skill directory. Use `--output-root` only when the user chose a different location.
    - Replace every `TODO` in the generated `research.json` with researched, synthesized content. Add enough sections, terms, checks, and sources to satisfy the learning goal.
-   - Run `python3 scripts/build_deck.py <path-to-research.json>` to create the self-contained `index.html`. Do not require a web server, package install, or network connection for the presentation itself.
+   - Read the whole `research.json` aloud in your head before building. Rewrite any sentence that sounds formal, dense, vague, or hard to translate.
+   - Run `python3 scripts/build_deck.py <path-to-research.json>` to check the language and create the self-contained `index.html`. If the language check fails, simplify the reported text and run it again.
    - Keep citations as normal HTTPS links and include a source list with titles, publishers, and access dates.
 
 6. Verify before delivery.
@@ -54,10 +58,12 @@ Produce a trustworthy learning path, not a pile of facts. Optimize the main view
 - Default output: `~/Projects/personal/<topic-slug>-learning-deck/index.html`.
 - Never overwrite an existing non-empty output directory. Create a distinct directory or ask before replacing it.
 - Keep the primary reading path concise: roughly 8–14 sections and 25–60 words per main section, excluding expanded detail and sources.
+- Aim for 8–20 words per sentence. Never exceed 30 words in learner-facing prose.
+- Do not use a hard word merely to sound precise. Keep a technical term only when the learner needs it to understand the topic or continue learning elsewhere.
 - Use local CSS and JavaScript only. Do not add trackers, remote fonts, third-party scripts, cookies, forms, or data collection.
 - Escape untrusted text inserted into HTML. Never paste executable source content into scripts or event handlers.
 - Meet basic accessibility: semantic landmarks, visible focus, keyboard-operable controls, adequate contrast, reduced-motion support, and descriptive link text.
 
 ## Quality bar
 
-The deck is complete only when a motivated beginner can explain the topic's purpose, core vocabulary, mental model, mechanics, one concrete example, major tradeoffs, and where to learn next without needing another primer.
+The deck is complete only when a beginner can explain the topic's purpose, key words, basic model, how it works, one clear example, main limits, and what to learn next. A learner with basic English should not need a dictionary for non-technical words.

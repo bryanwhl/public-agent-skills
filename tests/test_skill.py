@@ -58,6 +58,32 @@ class SkillTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Unknown source"):
             builder.render(data, template)
 
+    def test_rejects_formal_phrase(self):
+        data = json.loads((ROOT / "tests" / "fixture-research.json").read_text())
+        data["sections"][0]["summary"] = "People utilize this method to share data."
+        template = (SKILL / "assets" / "deck-template.html").read_text()
+        with self.assertRaisesRegex(ValueError, 'replace "utilize" with "use"'):
+            builder.render(data, template)
+
+    def test_rejects_sentence_over_thirty_words(self):
+        data = json.loads((ROOT / "tests" / "fixture-research.json").read_text())
+        data["sections"][0]["summary"] = " ".join(["word"] * 31) + "."
+        template = (SKILL / "assets" / "deck-template.html").read_text()
+        with self.assertRaisesRegex(ValueError, "30 words or fewer"):
+            builder.render(data, template)
+
+    def test_uses_simple_interface_labels(self):
+        data = json.loads((ROOT / "tests" / "fixture-research.json").read_text())
+        template = (SKILL / "assets" / "deck-template.html").read_text()
+        rendered = builder.render(data, template)
+        self.assertIn("Learn more", rendered)
+        self.assertIn("Check what you learned", rendered)
+        self.assertIn("Where the facts came from", rendered)
+        self.assertIn("published or updated", rendered)
+        self.assertIn("viewed on", rendered)
+        self.assertNotIn("Retrieval practice", rendered)
+        self.assertNotIn("Sources and methodology", rendered)
+
     def test_cli_build_and_validate_fixture(self):
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "index.html"
