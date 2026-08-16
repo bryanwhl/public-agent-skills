@@ -72,6 +72,44 @@ class SkillTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "30 words or fewer"):
             builder.render(data, template)
 
+    def test_rejects_alternate_term(self):
+        data = json.loads((ROOT / "tests" / "fixture-research.json").read_text())
+        data["sections"][0]["summary"] = "The light bending process changes the path of light."
+        template = (SKILL / "assets" / "deck-template.html").read_text()
+        with self.assertRaisesRegex(ValueError, 'replace alternate label "light bending process" with "refraction"'):
+            builder.render(data, template)
+
+    def test_rejects_noncanonical_definition(self):
+        data = json.loads((ROOT / "tests" / "fixture-research.json").read_text())
+        data["sections"][0]["terms"][0]["definition"] = "A different definition."
+        template = (SKILL / "assets" / "deck-template.html").read_text()
+        with self.assertRaisesRegex(ValueError, 'canonical definition for "refraction"'):
+            builder.render(data, template)
+
+    def test_rejects_term_missing_from_terminology(self):
+        data = json.loads((ROOT / "tests" / "fixture-research.json").read_text())
+        data["terminology"] = []
+        template = (SKILL / "assets" / "deck-template.html").read_text()
+        with self.assertRaisesRegex(ValueError, "add a canonical entry"):
+            builder.render(data, template)
+
+    def test_rejects_inconsistent_acronym_case(self):
+        data = json.loads((ROOT / "tests" / "fixture-research.json").read_text())
+        data["terminology"].append(
+            {"term": "TLS", "first_use": "Transport Layer Security (TLS)", "definition": "A system that protects web connections.", "avoid": []}
+        )
+        data["sections"][0]["points"][0]["text"] = "Tls can protect a connection."
+        template = (SKILL / "assets" / "deck-template.html").read_text()
+        with self.assertRaisesRegex(ValueError, 'acronym "TLS"'):
+            builder.render(data, template)
+
+    def test_rejects_inconsistent_term_label_case(self):
+        data = json.loads((ROOT / "tests" / "fixture-research.json").read_text())
+        data["sections"][0]["terms"][0]["term"] = "Refraction"
+        template = (SKILL / "assets" / "deck-template.html").read_text()
+        with self.assertRaisesRegex(ValueError, 'write "refraction" with the same capitalization'):
+            builder.render(data, template)
+
     def test_uses_simple_interface_labels(self):
         data = json.loads((ROOT / "tests" / "fixture-research.json").read_text())
         template = (SKILL / "assets" / "deck-template.html").read_text()

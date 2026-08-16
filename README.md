@@ -6,7 +6,7 @@ A personal collection of portable [Agent Skills](https://openagentskills.dev/doc
 
 ### `research-to-interactive-deck`
 
-Researches an unfamiliar topic from first principles and produces a concise, source-grounded, interactive HTML learning deck. It uses simple English for beginners and people who are not fluent in English. The deck includes expandable explanations and clickable definitions for technical words, and is saved under `~/Projects/personal` by default.
+Researches an unfamiliar topic from first principles and produces a concise, source-grounded, interactive HTML learning deck. It uses simple English and one consistent name for each technical idea. The deck includes expandable explanations and clickable definitions for technical words, and is saved under `~/Projects/personal` by default.
 
 Example prompt:
 

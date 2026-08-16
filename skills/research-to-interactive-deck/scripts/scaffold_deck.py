@@ -35,6 +35,14 @@ def main() -> int:
         "audience": args.audience,
         "updated": date.today().isoformat(),
         "objectives": ["TODO: learner outcome"],
+        "terminology": [
+            {
+                "term": "TODO technical term",
+                "first_use": "TODO full term and short form, or the same term",
+                "definition": "TODO one simple definition used everywhere",
+                "avoid": ["TODO alternate label not to use"],
+            }
+        ],
         "sections": [
             {
                 "id": "why-it-matters",

@@ -1,4 +1,4 @@
 interface:
   display_name: "Research to Interactive Deck"
-  short_description: "Explain a topic in a simple interactive learning deck"
-  default_prompt: "Use $research-to-interactive-deck to teach me a topic from the beginning with simple English and a concise interactive HTML deck."
+  short_description: "Explain a topic with simple, consistent terms"
+  default_prompt: "Use $research-to-interactive-deck to teach me a topic from the beginning with simple English, consistent technical terms, and a concise interactive HTML deck."

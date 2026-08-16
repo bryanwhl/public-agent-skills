@@ -35,6 +35,16 @@ Use these roles, combining adjacent roles when that improves flow:
 - Define a term in plain language in one or two sentences. Add a compact example when useful.
 - Do not hide information required to follow the core narrative.
 
+## Terminology consistency
+
+- Create a canonical `terminology` entry for every technical term used in the deck.
+- Choose one exact term and one simple definition.
+- List unwanted synonyms or paraphrases in the entry's `avoid` list.
+- Use the full term and acronym together at first use. Use the chosen acronym after that.
+- Match each clickable term and definition to its canonical terminology entry exactly.
+- Do not rename the same concept across sections. Repetition is clearer than unnecessary variation.
+- Keep two terms only when they have different meanings. Explain the difference near their first use.
+
 ## Visual design
 
 - Use a small color set, plenty of empty space, and clear heading sizes.
@@ -63,6 +73,8 @@ Use these roles, combining adjacent roles when that improves flow:
 
 - A beginner can state the purpose, key words, basic model, how it works, one example, and its benefits and limits.
 - Every specialist term in the main path is defined or deliberately replaced with plain language.
+- Every technical term uses one canonical name and definition throughout the deck.
+- No alternate term listed in `terminology[].avoid` appears in learner-facing text.
 - Most sentences contain 8–20 words, and no learner-facing sentence contains more than 30 words.
 - Common inflated phrases have been replaced with short, direct words.
 - Important claims are cited and source links match the claims.

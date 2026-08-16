@@ -7,6 +7,14 @@
     "Explain why sunlight separates into colors inside a raindrop",
     "Describe why the primary rainbow appears opposite the Sun"
   ],
+  "terminology": [
+    {
+      "term": "refraction",
+      "first_use": "refraction",
+      "definition": "A change in a wave's direction caused by entering a medium where it travels at a different speed.",
+      "avoid": ["light bending process"]
+    }
+  ],
   "sections": [
     {
       "id": "core-model",

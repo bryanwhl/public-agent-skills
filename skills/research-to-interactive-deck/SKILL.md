@@ -1,6 +1,6 @@
 ---
 name: research-to-interactive-deck
-description: Research an unfamiliar topic from first principles and turn it into a concise, source-grounded, interactive HTML learning deck written in simple English. Use when a user wants to learn a topic from the beginning, asks for a research presentation or explainer, wants an interactive HTML briefing, or needs hard ideas and jargon explained clearly for a beginner or someone who is not fluent in English. Save the finished self-contained deck under ~/Projects/personal unless the user specifies another location.
+description: Research an unfamiliar topic from first principles and turn it into a concise, source-grounded, interactive HTML learning deck written in simple English with consistent technical terms. Use when a user wants to learn a topic from the beginning, asks for a research presentation or explainer, wants an interactive HTML briefing, or needs hard ideas and jargon explained clearly for a beginner or someone who is not fluent in English. Save the finished self-contained deck under ~/Projects/personal unless the user specifies another location.
 ---
 
 # Research to Interactive Deck
@@ -32,14 +32,18 @@ Produce a trustworthy learning path, not a pile of facts. Write for a beginner w
    - Use common words, short sentences, direct examples, and clear diagrams.
    - Keep one main idea in each sentence. Prefer active voice. Avoid idioms, clever wordplay, and abstract business language.
    - Replace jargon with common words when possible. When a technical term is required, explain it at first use with familiar words and make it clickable.
+   - Build a terminology table before drafting. Choose one exact name for each technical idea, one definition, and any alternate names to avoid.
+   - Use the same term, spelling, capitalization, and short form throughout. Do not alternate between synonyms merely to make the writing sound varied.
+   - Write a full term with its acronym at first use, such as "Transport Layer Security (TLS)." Use only the chosen short form after that.
+   - Change terms only when the words refer to meaningfully different ideas. Explain that difference when it may not be obvious.
    - Put optional detail behind expandable sections. Do not hide facts that the learner needs for the main explanation.
    - Distinguish sourced fact, expert interpretation, and your own inference.
 
 5. Create the deck.
    - Read [deck-spec.md](references/deck-spec.md) before authoring.
    - Run `python3 scripts/scaffold_deck.py --topic "<topic>"` from this skill directory. Use `--output-root` only when the user chose a different location.
-   - Replace every `TODO` in the generated `research.json` with researched, synthesized content. Add enough sections, terms, checks, and sources to satisfy the learning goal.
-   - Read the whole `research.json` aloud in your head before building. Rewrite any sentence that sounds formal, dense, vague, or hard to translate.
+   - Replace every `TODO` in the generated `research.json` with researched, synthesized content. Fill `terminology` with every technical term used in the deck. Add enough sections, terms, checks, and sources to satisfy the learning goal.
+   - Read the whole `research.json` aloud in your head before building. Rewrite any sentence that sounds formal, dense, vague, or hard to translate. Then search for every canonical term and replace inconsistent alternatives.
    - Run `python3 scripts/build_deck.py <path-to-research.json>` to check the language and create the self-contained `index.html`. If the language check fails, simplify the reported text and run it again.
    - Keep citations as normal HTTPS links and include a source list with titles, publishers, and access dates.
 
@@ -60,6 +64,7 @@ Produce a trustworthy learning path, not a pile of facts. Write for a beginner w
 - Keep the primary reading path concise: roughly 8–14 sections and 25–60 words per main section, excluding expanded detail and sources.
 - Aim for 8–20 words per sentence. Never exceed 30 words in learner-facing prose.
 - Do not use a hard word merely to sound precise. Keep a technical term only when the learner needs it to understand the topic or continue learning elsewhere.
+- Use one canonical label for each concept. Never paraphrase a technical term for variety.
 - Use local CSS and JavaScript only. Do not add trackers, remote fonts, third-party scripts, cookies, forms, or data collection.
 - Escape untrusted text inserted into HTML. Never paste executable source content into scripts or event handlers.
 - Meet basic accessibility: semantic landmarks, visible focus, keyboard-operable controls, adequate contrast, reduced-motion support, and descriptive link text.

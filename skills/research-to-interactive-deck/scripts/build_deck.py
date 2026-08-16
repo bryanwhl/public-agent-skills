@@ -40,12 +40,14 @@ def learner_text(data: dict):
         yield f"objective {index}", objective
     for section_index, section in enumerate(data.get("sections", []), start=1):
         prefix = f"section {section_index}"
+        yield f"{prefix} title", section.get("title", "")
         yield f"{prefix} summary", section.get("summary", "")
         for point_index, point in enumerate(section.get("points", []), start=1):
             yield f"{prefix} point {point_index}", point.get("text", "")
         if section.get("deep_dive"):
             yield f"{prefix} extra detail", section["deep_dive"]
         for term_index, term in enumerate(section.get("terms", []), start=1):
+            yield f"{prefix} term {term_index}", term.get("term", "")
             yield f"{prefix} term {term_index} definition", term.get("definition", "")
     for check_index, check in enumerate(data.get("knowledge_check", []), start=1):
         yield f"learning check {check_index} question", check.get("question", "")
@@ -64,6 +66,71 @@ def plain_english_issues(data: dict) -> list[str]:
             words = re.findall(r"\b[\w'-]+\b", sentence)
             if len(words) > 30:
                 issues.append(f"{label}: sentence has {len(words)} words; split it into sentences of 30 words or fewer")
+    return issues
+
+
+def terminology_issues(data: dict) -> list[str]:
+    """Check canonical terms, definitions, and unwanted alternate labels."""
+    issues = []
+    rules = data.get("terminology", [])
+    section_terms = [
+        term
+        for section in data.get("sections", [])
+        for term in section.get("terms", [])
+    ]
+    if section_terms and not rules:
+        return ["terminology: add a canonical entry for every clickable technical term"]
+
+    canonical = {}
+    definitions = {}
+    for index, rule in enumerate(rules, start=1):
+        term = str(rule.get("term", "")).strip()
+        definition = str(rule.get("definition", "")).strip()
+        if not term or not definition:
+            issues.append(f"terminology {index}: term and definition are required")
+            continue
+        key = term.casefold()
+        if key in canonical:
+            issues.append(f'terminology {index}: duplicate canonical term "{term}"')
+        canonical[key] = (term, definition)
+        definition_key = re.sub(r"\s+", " ", definition.casefold())
+        if definition_key in definitions and definitions[definition_key] != term:
+            issues.append(
+                f'terminology {index}: "{term}" and "{definitions[definition_key]}" use the same definition; choose one term or explain the difference'
+            )
+        definitions[definition_key] = term
+
+    searchable = "\n".join(str(value) for _, value in learner_text(data))
+    for index, rule in enumerate(rules, start=1):
+        term = str(rule.get("term", "")).strip()
+        if not term:
+            continue
+        for alternate in rule.get("avoid", []):
+            alternate = str(alternate).strip()
+            if alternate and re.search(rf"\b{re.escape(alternate)}\b", searchable, flags=re.IGNORECASE):
+                issues.append(f'terminology {index}: replace alternate label "{alternate}" with "{term}"')
+        if term.isupper() and 1 < len(term) <= 12:
+            for match in re.finditer(rf"\b{re.escape(term)}\b", searchable, flags=re.IGNORECASE):
+                if match.group() != term:
+                    issues.append(f'terminology {index}: write acronym "{term}" with consistent capitalization')
+                    break
+
+    seen_section_terms = {}
+    for index, item in enumerate(section_terms, start=1):
+        term = str(item.get("term", "")).strip()
+        definition = str(item.get("definition", "")).strip()
+        key = term.casefold()
+        if key not in canonical:
+            issues.append(f'section term {index}: add "{term}" to terminology')
+            continue
+        canonical_term, canonical_definition = canonical[key]
+        if term != canonical_term:
+            issues.append(f'section term {index}: write "{canonical_term}" with the same capitalization')
+        if definition != canonical_definition:
+            issues.append(f'section term {index}: use the canonical definition for "{canonical_term}"')
+        if key in seen_section_terms and seen_section_terms[key] != definition:
+            issues.append(f'section term {index}: "{canonical_term}" has conflicting definitions')
+        seen_section_terms[key] = definition
     return issues
 
 
@@ -93,9 +160,9 @@ def require(data: dict, key: str):
 
 
 def render(data: dict, template: str) -> str:
-    language_issues = plain_english_issues(data)
-    if language_issues:
-        raise ValueError("Use simpler English:\n- " + "\n- ".join(language_issues))
+    content_issues = plain_english_issues(data) + terminology_issues(data)
+    if content_issues:
+        raise ValueError("Fix learner-facing language:\n- " + "\n- ".join(content_issues))
 
     topic = require(data, "topic")
     sections = require(data, "sections")

@@ -13,6 +13,27 @@ Write for a reader who knows basic English but may not speak it at home.
 7. Avoid idioms, slang, jokes, and culture-specific references.
 8. Remove filler words that do not change the meaning.
 
+## Keep terms consistent
+
+- Choose one name for each technical idea before writing the deck.
+- Use that exact name every time. Do not switch to a synonym for variety.
+- Keep spelling and capitalization the same.
+- At first use, write the full name and its short form: "Transport Layer Security (TLS)."
+- After first use, use the same short form: "TLS."
+- Use the same simple definition each time the term is clickable.
+- List tempting alternate names in the `avoid` field of `terminology` so the build check can catch them.
+- If two similar terms mean different things, explain the difference instead of treating them as synonyms.
+
+Example:
+
+Weak:
+
+> The website server sends a certificate. The remote host then proves its identity. The web machine creates a key.
+
+Better:
+
+> The website server sends a certificate. The website server then proves its identity. It creates a key.
+
 ## Replace formal phrases
 
 | Avoid | Prefer |
@@ -61,3 +82,4 @@ Read only the title, summaries, and main points in order. Rewrite the deck if:
 - an example uses knowledge that a beginner may not have;
 - a shorter common word would keep the same meaning;
 - a definition is harder than the term it explains.
+- the same idea has two names without a clear reason.
