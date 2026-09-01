@@ -1,6 +1,14 @@
-# Public Agent Skills
+# Public Agent Skills and Prompts
 
-A public collection of portable [Agent Skills](https://openagentskills.dev/docs/specification) for Codex and other coding agents that understand `SKILL.md` packages.
+A public collection of portable [Agent Skills](https://openagentskills.dev/docs/specification) and reusable prompts for Codex and other AI agents.
+
+## Included prompts
+
+### `high-signal-explanations`
+
+A personalization prompt that asks an agent to explain ideas with concise, connected steps, precise references, concrete examples, code, and end-to-end data traces. It also asks for small visual aids when a visual would make the explanation easier to understand.
+
+Copy the prompt from [`prompts/high-signal-explanations.md`](prompts/high-signal-explanations.md) into an agent's long-term memory, personalization settings, or project instructions.
 
 ## Included skills
 
@@ -42,6 +50,9 @@ Each folder under `skills/` follows the open Agent Skills layout and can be copi
 ## Repository layout
 
 ```text
+prompts/
+  README.md
+  high-signal-explanations.md
 skills/
   research-to-interactive-deck/
     SKILL.md
